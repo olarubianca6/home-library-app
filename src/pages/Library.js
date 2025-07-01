@@ -41,7 +41,7 @@ function Library() {
         ...book,
         StatusLabel: STATUS_LABELS[String(book.Status)] || "Unknown",
       })),
-    [books]
+    [books, STATUS_LABELS]
   );
 
   const categories = useMemo(
