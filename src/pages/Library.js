@@ -14,13 +14,6 @@ function Library() {
   const [bookToUpdate, setBookToUpdate] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const STATUS_LABELS = {
-    "0": "Not Read",
-    "1": "Read",
-    "2": "Currently Reading",
-    "3": "Did Not Finish",
-  };
-
   const fetchBooks = () => {
     axios
       .get("http://127.0.0.1:5003/books")
@@ -35,14 +28,19 @@ function Library() {
     fetchBooks();
   }, []);
 
-  const booksWithLabels = useMemo(
-    () =>
-      books.map((book) => ({
-        ...book,
-        StatusLabel: STATUS_LABELS[String(book.Status)] || "Unknown",
-      })),
-    [books, STATUS_LABELS]
-  );
+const booksWithLabels = useMemo(() => {
+  const STATUS_LABELS = {
+    "0": "Not Read",
+    "1": "Read",
+    "2": "Currently Reading",
+    "3": "Did Not Finish",
+  };
+
+  return books.map(book => ({
+    ...book,
+    StatusLabel: STATUS_LABELS[String(book.Status)] || "Unknown",
+  }));
+}, [books]);
 
   const categories = useMemo(
     () => [...new Set(booksWithLabels.map((b) => b.Category).filter(Boolean))],
