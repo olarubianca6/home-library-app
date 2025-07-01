@@ -2,12 +2,16 @@ import json
 from collections import Counter
 from flask_cors import CORS
 from flask import Flask, jsonify, request, abort
+import os
 import logging
+
 logging.getLogger('flask_cors').level = logging.DEBUG
 
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], allow_headers="*")
-JSON_FILE = "books.json"
+# JSON_FILE = "books.json"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+JSON_FILE = os.path.join(BASE_DIR, 'books.json')
 
 def load_books():
     with open(JSON_FILE, encoding='utf-8') as f:
